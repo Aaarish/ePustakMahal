@@ -11,7 +11,10 @@ import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +23,8 @@ public class BookServiceImpl implements BookService {
     private final BookConverter bookConverter;
 
     @Override
-    public List<BookDto> getBooks(String genre, String author, String language) {
-        List<Book> books = new ArrayList<>();
+    public Set<BookDto> getBooks(String genre, String author, String language) {
+        Set<Book> books = new HashSet<>();
         
         if(genre != null && !Strings.isEmpty(genre)) {
             books.addAll(bookDao.getBooksWithGenre(genre));
@@ -37,7 +40,7 @@ public class BookServiceImpl implements BookService {
 
         return books.stream()
                 .map(bookConverter::bookToDto)
-                .toList();
+                .collect(Collectors.toSet());
     }
 
     @Override

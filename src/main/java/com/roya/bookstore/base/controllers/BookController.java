@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/books")
@@ -25,7 +25,7 @@ public class BookController {
     public ResponseEntity<GenericResponse> getBooks(@RequestParam(value = "genre", required = false) String genre,
                                                     @RequestParam(value = "author", required = false) String author,
                                                     @RequestParam(value = "language", required = false) String language) {
-        List<BookDto> allBooks = bookService.getBooks(genre, author, language);
+        Set<BookDto> allBooks = bookService.getBooks(genre, author, language);
 
         return ResponseEntity.status(HttpStatus.ACCEPTED)
                 .body(GenericResponse.builder()
