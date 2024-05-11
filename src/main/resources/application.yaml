@@ -1,0 +1,11 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: = ebook-store
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/ebookstoredb
+    username: postgres
+    password: root
