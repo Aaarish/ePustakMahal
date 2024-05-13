@@ -5,14 +5,11 @@ import com.roya.bookstore.base.dto.BookDto;
 import com.roya.bookstore.base.entities.Book;
 import com.roya.bookstore.base.services.BookService;
 import com.roya.bookstore.common.BookConverter;
-import com.roya.bookstore.enums.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -24,18 +21,24 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Set<BookDto> getBooks(String genre, String author, String language) {
+        if(genre == null && author == null && language == null) {
+            return bookDao.findAll().stream()
+                    .map(bookConverter::bookToDto)
+                    .collect(Collectors.toSet());
+        }
+
         Set<Book> books = new HashSet<>();
         
         if(genre != null && !Strings.isEmpty(genre)) {
-            books.addAll(bookDao.getBooksWithGenre(genre));
+            books.addAll(bookDao.findByGenreCategory(genre));
         }
 
         if(author != null && !Strings.isEmpty(author)) {
-            books.addAll(bookDao.getBooksWithAuthor(author));
+            books.addAll(bookDao.findByAuthorCategory(author));
         }
 
         if(language != null && !Strings.isEmpty(language)) {
-            books.addAll(bookDao.getBooksWithLanguage(language));
+            books.addAll(bookDao.findByLanguageCategory(language));
         }
 
         return books.stream()

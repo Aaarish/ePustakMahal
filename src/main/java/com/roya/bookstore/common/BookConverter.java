@@ -2,12 +2,10 @@ package com.roya.bookstore.common;
 
 import com.roya.bookstore.base.dto.BookDto;
 import com.roya.bookstore.base.entities.Book;
-import com.roya.bookstore.enums.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Optional;
+import java.util.UUID;
 
 import static com.roya.bookstore.enums.CategoryType.*;
 
@@ -32,12 +30,13 @@ public class BookConverter {
 
     public Book dtoToBook (BookDto bookDto) {
         return Book.builder()
-                .bookId(bookDto.getBookId())
+                .bookId(UUID.randomUUID().toString())
                 .title(bookDto.getTitle())
                 .author(bookDto.getAuthor())
                 .pages(bookDto.getPages())
                 .description(bookDto.getDescription())
                 .isInStock(bookDto.isInStock())
+                .quantityInStock(bookDto.getQuantityInStock())
                 .authorCategory(bookDto.getAuthorCategory())
                 .languageCategory(bookDto.getLanguageCategory())
                 .genreCategory(bookDto.getGenreCategory())
