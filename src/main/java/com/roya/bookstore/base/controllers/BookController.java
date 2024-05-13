@@ -15,10 +15,6 @@ import java.util.Set;
 @RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
-    /*
-    list categories, list books by category, buy a book
-     */
-
     private final BookService bookService;
 
     @GetMapping
@@ -45,6 +41,18 @@ public class BookController {
                         .source(null)
                         .responseStatus(ResponseStatus.SUCCESS)
                         .responseBody(book)
+                        .build());
+    }
+
+    @PutMapping("/{bookId}")
+    public ResponseEntity<GenericResponse> buyBook(@PathVariable String bookId) {
+        BookDto bookDto = bookService.buyBook(bookId);
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED)
+                .body(GenericResponse.builder()
+                        .source(null)
+                        .responseStatus(ResponseStatus.SUCCESS)
+                        .responseBody(bookDto)
                         .build());
     }
 

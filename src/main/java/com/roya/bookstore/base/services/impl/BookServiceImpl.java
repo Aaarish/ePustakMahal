@@ -51,4 +51,20 @@ public class BookServiceImpl implements BookService {
         return bookConverter.bookToDto(book);
     }
 
+    @Override
+    public BookDto buyBook(String bookId) {
+        Book book = bookDao.findById(bookId)
+                .orElseThrow();
+
+        if (!book.isInStock()) {
+            return null;
+        }
+
+//        add the book to the user's book list, also add the logic to checkout and payment
+        book.setQuantityInStock(book.getQuantityInStock()-1);
+        Book updatedBook = bookDao.save(book);
+
+        return bookConverter.bookToDto(updatedBook);
+    }
+
 }

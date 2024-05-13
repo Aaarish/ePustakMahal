@@ -11,4 +11,5 @@ public interface BookService {
 
     BookDto getBook(String bookId);
 
+    BookDto buyBook(String bookId);
 }
