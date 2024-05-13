@@ -1,8 +1,5 @@
 package com.roya.bookstore.base.entities;
 
-import com.roya.bookstore.base.entities.categories.AuthorCategory;
-import com.roya.bookstore.base.entities.categories.GenreCategory;
-import com.roya.bookstore.base.entities.categories.LanguageCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,22 +12,21 @@ import lombok.*;
 @Builder
 public class Book {
     @Id
+    @Column(name = "book_id", unique = true, nullable = false)
     private String bookId;
     private String title;
     private String author;
     private int pages;
     private String description;
+
+    @Column(name = "is_in_stock")
     private boolean isInStock;
+
+    @Column(name = "quantity_in_stock")
     private int quantityInStock;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_category", referencedColumnName = "categoryId")
-    private GenreCategory genreCategory;
-    @ManyToOne
-    @JoinColumn(name = "author_category", referencedColumnName = "categoryId")
-    private AuthorCategory authorCategory;
-    @ManyToOne
-    @JoinColumn(name = "language_category", referencedColumnName = "categoryId")
-    private LanguageCategory languageCategory;
+    private String genreCategory;
+    private String authorCategory;
+    private String languageCategory;
 
 }

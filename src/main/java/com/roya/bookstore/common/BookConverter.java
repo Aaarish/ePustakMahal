@@ -1,21 +1,19 @@
 package com.roya.bookstore.common;
 
-import com.roya.bookstore.base.dao.AuthorCategoryDao;
-import com.roya.bookstore.base.dao.GenreCategoryDao;
-import com.roya.bookstore.base.dao.LanguageCategoryDao;
 import com.roya.bookstore.base.dto.BookDto;
 import com.roya.bookstore.base.entities.Book;
+import com.roya.bookstore.enums.CategoryType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.Optional;
 
 import static com.roya.bookstore.enums.CategoryType.*;
 
 @Service
 @RequiredArgsConstructor
 public class BookConverter {
-    private final AuthorCategoryDao authorCategoryDao;
-    private final LanguageCategoryDao languageCategoryDao;
-    private final GenreCategoryDao genreCategoryDao;
 
     public BookDto bookToDto (Book book) {
         return BookDto.builder()
@@ -25,9 +23,10 @@ public class BookConverter {
                 .pages(book.getPages())
                 .description(book.getDescription())
                 .isInStock(book.isInStock())
-                .authorCategory(book.getAuthorCategory().getCategoryType().toString())
-                .languageCategory(book.getLanguageCategory().getCategoryType().toString())
-                .genreCategory(book.getGenreCategory().getCategoryType().toString())
+                .quantityInStock(book.getQuantityInStock())
+                .authorCategory(book.getAuthorCategory())
+                .languageCategory(book.getLanguageCategory())
+                .genreCategory(book.getGenreCategory())
                 .build();
     }
 
@@ -39,9 +38,9 @@ public class BookConverter {
                 .pages(bookDto.getPages())
                 .description(bookDto.getDescription())
                 .isInStock(bookDto.isInStock())
-                .authorCategory(authorCategoryDao.findByCategoryType(AUTHOR).orElseThrow())
-                .languageCategory(languageCategoryDao.findByCategoryType(LANGUAGE).orElseThrow())
-                .genreCategory(genreCategoryDao.findByCategoryType(GENRE).orElseThrow())
+                .authorCategory(bookDto.getAuthorCategory())
+                .languageCategory(bookDto.getLanguageCategory())
+                .genreCategory(bookDto.getGenreCategory())
                 .build();
     }
 

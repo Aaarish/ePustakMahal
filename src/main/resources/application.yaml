@@ -9,3 +9,9 @@ spring:
     url: jdbc:postgresql://localhost:5432/ebookstoredb
     username: postgres
     password: root
+
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
